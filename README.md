@@ -2,21 +2,8 @@
 
 A full-stack employee directory built with:
 
-- 🧠 **Backend**: Node.js + Apollo Server + MongoDB + GraphQL  
-- 🌐 **Frontend**: Next.js + Apollo Client + Tailwind CSS + React 19
-
----
-
-## 🚀 Project Structure
-
-markdown file:
-
-# 👩‍💼 Employee Directory (Fullstack App)
-
-A full-stack employee directory built with:
-
-- 🧠 **Backend**: Node.js + Apollo Server + MongoDB + GraphQL  
-- 🌐 **Frontend**: Next.js + Apollo Client + Tailwind CSS + React 19
+- **Backend**: Node.js + Apollo Server + MongoDB + GraphQL  
+- **Frontend**: Next.js + Apollo Client + Tailwind CSS + React 19
 
 ---
 
