@@ -1,37 +1,50 @@
 'use client';
-
 import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { GET_EMPLOYEE_DETAILS } from '../../../graphql/queries';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import { use } from 'react';
 
-
-export default function EmployeeDetailPage({ params: paramsPromise }) {
-  const params = use(paramsPromise); // ✅ Unwrap the Promise with `use()`
-  const router = useRouter();
-
+export default function EmployeeDetailModal({ employeeId, onClose }) {
   const { data, loading, error } = useQuery(GET_EMPLOYEE_DETAILS, {
-    variables: { id: params.id },
+    variables: { id: employeeId },
+    skip: !employeeId,
     errorPolicy: 'all'
   });
 
-  if (loading) return <LoadingSpinner />;
+  if (!employeeId) return null;
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-30 overflow-y-auto h-full w-full flex items-center justify-center">
+        <div className="relative mx-auto p-5 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
+          <div className="text-right p-4">
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+              <Image src="/delete.svg" alt="Close" width={25} height={25} />
+            </button>
+          </div> 
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
   if (error || !data?.getEmployeeDetails) {
     return (
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="text-center py-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Employee Not Found</h1>
-          <p className="text-gray-600 mb-6">
-            {error ? error.message : 'The requested employee could not be found.'}
-          </p>
-          <button
-            onClick={() => router.push('/')}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Back to Employees
-          </button>
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-30 overflow-y-auto h-full w-full flex items-center justify-center">
+        <div className="relative mx-auto p-5 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
+          <div className="text-right p-4">
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+              <Image src="/delete.svg" alt="Close" width={25} height={25} />
+            </button>
+          </div>
+          <div className="px-4 py-5 sm:px-6 text-center">
+            <div className="text-cyan-950">
+              <h2 className="text-lg font-semibold">Employee Not Found</h2>
+              <p className="mt-2 text-sm text-gray-600">
+                {error ? error.message : 'The requested employee could not be found.'}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -40,17 +53,13 @@ export default function EmployeeDetailPage({ params: paramsPromise }) {
   const employee = data.getEmployeeDetails;
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <button
-          onClick={() => router.push('/')}
-          className="inline-flex items-center text-sm text-cyan-500 hover:text-cyan-950"
-        >
-          ← Back to Employees
-        </button>
-      </div>
-
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-30 overflow-y-auto h-full w-full flex items-center justify-center">
+      <div className="relative mx-auto p-5 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
+        <div className="text-right p-4">
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <Image src="/delete.svg" alt="Close" width={25} height={25} />
+          </button>
+        </div>
         <div className="px-4 py-5 sm:px-6">
           <h1 className="text-2xl font-bold text-gray-900">{employee.name}</h1>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">Employee details and information</p>
